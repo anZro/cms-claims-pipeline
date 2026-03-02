@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: dim_providers
+    description: "One row per unique provider NPI. Deduped from provider utilization data, keeping highest-volume service record per NPI."
+    columns:
+      - name: rendering_npi
+        description: "National Provider Identifier — primary key"
+        data_tests:
+          - not_null
+          - unique
+
+      - name: provider_specialty
+        description: "Provider specialty type"
+        data_tests:
+          - not_null
+
+      - name: provider_state
+        description: "Two-letter state abbreviation"
+        data_tests:
+          - not_null
+
+      - name: is_medicare_participating
+        description: "True if provider accepts Medicare assignment"
+        data_tests:
+          - not_null
+
+  - name: fct_provider_payments
+    description: "One row per provider+HCPCS code. Medicare payment amounts, utilization metrics, and derived total payment figures."
+    columns:
+      - name: rendering_npi
+        description: "Foreign key to dim_providers"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_providers')
+              field: rendering_npi
+
+      - name: hcpcs_code
+        description: "HCPCS procedure code"
+        data_tests:
+          - not_null
+
+      - name: total_medicare_payment
+        description: "Derived total Medicare payment — avg payment * total services"
+        data_tests:
+          - not_null
+
+      - name: avg_medicare_payment_amt
+        description: "Average Medicare payment per service"
+        data_tests:
+          - not_null
+
+  - name: fct_drug_spend_by_specialty
+    description: "Medicare Part D drug spending metrics for 2023, excluding aggregate manufacturer rollup rows."
+    columns:
+      - name: brand_name
+        description: "Brand name of the drug"
+        data_tests:
+          - not_null
+
+      - name: generic_name
+        description: "Generic name of the drug"
+        data_tests:
+          - not_null
+
+      - name: total_spending_2023
+        description: "Total Medicare Part D spending in 2023"
+        data_tests:
+          - not_null
+
+      - name: spend_tier
+        description: "Derived spending tier bucket"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Billion+', '100M-1B', '10M-100M', '1M-10M', 'Under 1M']
