@@ -2,6 +2,10 @@ with source as (
     select * from {{ ref('stg_cms_provider_util') }}
 ),
 
+specialty_codes as (
+    select * from {{ ref('specialty_codes') }}
+),
+
 cleaned as (
     select
         -- provider identifiers
@@ -30,9 +34,9 @@ cleaned as (
         coalesce(cast(total_beneficiary_day_services as bigint), 0) as total_beneficiary_day_services,
 
         -- payments — cast and guard
-        coalesce(cast(avg_submitted_charge as decimal(18,2)), 0)        as avg_submitted_charge,
-        coalesce(cast(avg_medicare_allowed_amt as decimal(18,2)), 0)    as avg_medicare_allowed_amt,
-        coalesce(cast(avg_medicare_payment_amt as decimal(18,2)), 0)    as avg_medicare_payment_amt,
+        coalesce(cast(avg_submitted_charge as decimal(18,2)), 0)          as avg_submitted_charge,
+        coalesce(cast(avg_medicare_allowed_amt as decimal(18,2)), 0)      as avg_medicare_allowed_amt,
+        coalesce(cast(avg_medicare_payment_amt as decimal(18,2)), 0)      as avg_medicare_payment_amt,
         coalesce(cast(avg_medicare_standardized_amt as decimal(18,2)), 0) as avg_medicare_standardized_amt,
 
         -- derived
@@ -50,6 +54,16 @@ cleaned as (
         _loaded_at
 
     from source
+),
+
+enriched as (
+    select
+        c.*,
+        coalesce(s.specialty_description, c.provider_specialty) as specialty_description,
+        coalesce(s.specialty_category, 'Other')                 as specialty_category
+    from cleaned c
+    left join specialty_codes s
+        on c.provider_specialty = s.specialty_code
 )
 
-select * from cleaned
+select * from enriched

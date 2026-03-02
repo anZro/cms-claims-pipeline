@@ -1,0 +1,21 @@
+specialty_code,specialty_description,specialty_category
+Internal Medicine,Internal Medicine,Primary Care
+Family Practice,Family Practice,Primary Care
+Cardiology,Cardiology,Specialty Care
+Orthopedic Surgery,Orthopedic Surgery,Specialty Care
+Neurology,Neurology,Specialty Care
+Psychiatry,Psychiatry,Behavioral Health
+Ophthalmology,Ophthalmology,Specialty Care
+Dermatology,Dermatology,Specialty Care
+Gastroenterology,Gastroenterology,Specialty Care
+Hospitalist,Hospitalist,Primary Care
+Emergency Medicine,Emergency Medicine,Primary Care
+Anesthesiology,Anesthesiology,Specialty Care
+Radiology,Radiology,Diagnostic
+Pathology,Pathology,Diagnostic
+Nephrology,Nephrology,Specialty Care
+Pulmonary Disease,Pulmonary Disease,Specialty Care
+Oncology,Oncology,Specialty Care
+Urology,Urology,Specialty Care
+Rheumatology,Rheumatology,Specialty Care
+Endocrinology,Endocrinology,Specialty Care
