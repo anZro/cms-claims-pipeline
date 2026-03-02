@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: stg_cms_partd
+    description: "Staged Medicare Part D drug spending data, renamed and lightly cleaned from CMS raw source"
+    columns:
+      - name: brand_name
+        description: "Brand name of the drug"
+        data_tests:
+          - not_null
+
+      - name: generic_name
+        description: "Generic name of the drug"
+        data_tests:
+          - not_null
+
+      - name: manufacturer_name
+        description: "Manufacturer name — 'Overall' indicates aggregate row across all manufacturers"
+        data_tests:
+          - not_null
+
+      - name: total_spending_2023
+        description: "Total Medicare Part D spending in 2023 in USD"
+
+      - name: total_claims_2023
+        description: "Total claims submitted in 2023"
+
+      - name: total_beneficiaries_2023
+        description: "Total unique beneficiaries in 2023"
+
+  - name: stg_cms_provider_util
+    description: "Staged Medicare provider utilization and payment data, one row per provider+HCPCS code"
+    columns:
+      - name: rendering_npi
+        description: "National Provider Identifier — unique provider ID"
+        data_tests:
+          - not_null
+
+      - name: provider_specialty
+        description: "Provider specialty type as reported by CMS"
+        data_tests:
+          - not_null
+
+      - name: hcpcs_code
+        description: "HCPCS procedure code for the service rendered"
+        data_tests:
+          - not_null
+
+      - name: avg_medicare_payment_amt
+        description: "Average Medicare payment amount per service"
+        data_tests:
+          - not_null
+
+      - name: total_services
+        description: "Total services rendered by this provider for this HCPCS code"
+        data_tests:
+          - not_null

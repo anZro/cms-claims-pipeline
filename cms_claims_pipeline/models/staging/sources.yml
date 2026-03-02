@@ -1,0 +1,38 @@
+version: 2
+
+sources:
+  - name: cms_raw
+    schema: raw
+    description: "Raw CMS Medicare public datasets loaded via ingest.py"
+    tables:
+      - name: cms_partd_raw
+        description: "Medicare Part D Drug Spending 2019-2023, one row per drug/manufacturer"
+        columns:
+          - name: Brnd_Name
+            description: "Brand name of the drug"
+          - name: Gnrc_Name
+            description: "Generic name of the drug"
+          - name: Mftr_Name
+            description: "Manufacturer name"
+          - name: Tot_Spndng_2023
+            description: "Total Medicare Part D spending in 2023"
+          - name: Tot_Clms_2023
+            description: "Total claims in 2023"
+          - name: Tot_Benes_2023
+            description: "Total beneficiaries in 2023"
+
+      - name: cms_provider_raw
+        description: "Medicare Provider Utilization and Payment 2023, one row per provider+HCPCS code"
+        columns:
+          - name: Rndrng_NPI
+            description: "Rendering provider NPI (National Provider Identifier)"
+          - name: Rndrng_Prvdr_Type
+            description: "Provider specialty type"
+          - name: HCPCS_Cd
+            description: "HCPCS procedure code"
+          - name: Avg_Mdcr_Pymt_Amt
+            description: "Average Medicare payment amount per service"
+          - name: Tot_Srvcs
+            description: "Total services rendered"
+          - name: Tot_Benes
+            description: "Total unique beneficiaries"
