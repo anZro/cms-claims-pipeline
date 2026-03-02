@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: int_drug_spending
+    description: "Cleaned and typed Medicare Part D drug spending data. Nulls coalesced, types cast, outlier and aggregate flags added."
+    columns:
+      - name: brand_name
+        description: "Brand name of the drug"
+        data_tests:
+          - not_null
+
+      - name: generic_name
+        description: "Generic name of the drug"
+        data_tests:
+          - not_null
+
+      - name: manufacturer_name
+        description: "Manufacturer name"
+        data_tests:
+          - not_null
+
+      - name: total_spending_2023
+        description: "Total Medicare Part D spending in 2023, coalesced to 0 if null"
+        data_tests:
+          - not_null
+
+      - name: is_aggregate_row
+        description: "True if this row is an Overall aggregate across manufacturers"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: is_outlier_2023
+        description: "True if CMS flagged this drug as a spending outlier in 2023"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+  - name: int_provider_payments
+    description: "Cleaned and typed Medicare provider utilization and payment data. One row per provider+HCPCS code."
+    columns:
+      - name: rendering_npi
+        description: "National Provider Identifier"
+        data_tests:
+          - not_null
+
+      - name: provider_specialty
+        description: "Provider specialty type"
+        data_tests:
+          - not_null
+
+      - name: hcpcs_code
+        description: "HCPCS procedure code"
+        data_tests:
+          - not_null
+
+      - name: avg_medicare_payment_amt
+        description: "Average Medicare payment amount per service"
+        data_tests:
+          - not_null
+
+      - name: is_medicare_participating
+        description: "True if provider accepts Medicare assignment"
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+
+      - name: medicare_payment_ratio
+        description: "Ratio of average Medicare payment to average submitted charge. Null if submitted charge is zero."
