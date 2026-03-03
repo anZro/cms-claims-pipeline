@@ -19,6 +19,13 @@ Raw CMS Files (CSV)
       ↓
  Evidence.dev Dashboard
 ```
+## Dashboard
+
+Analytics served from the gold layer via Evidence.dev.
+
+![Dashboard Page 1](docs/dashboard_page1.png)
+
+![Dashboard Page 2](docs/dashboard_page2.png)
 
 ## Datasets
 
