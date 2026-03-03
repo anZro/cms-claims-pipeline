@@ -29,14 +29,18 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values: [true, false]
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: is_outlier_2023
         description: "True if CMS flagged this drug as a spending outlier in 2023"
         data_tests:
           - not_null
           - accepted_values:
-              values: [true, false]
+              arguments:
+                values: [true, false]
+                quote: false
 
   - name: int_provider_payments
     description: "Cleaned and typed Medicare provider utilization and payment data. One row per provider+HCPCS code."
@@ -66,7 +70,9 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values: [true, false]
+              arguments:
+                values: [true, false]
+                quote: false
 
       - name: medicare_payment_ratio
         description: "Ratio of average Medicare payment to average submitted charge. Null if submitted charge is zero."

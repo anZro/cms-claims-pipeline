@@ -32,7 +32,11 @@ final as (
             when total_spending_2023 >= 10000000   then '10M-100M'
             when total_spending_2023 >= 1000000    then '1M-10M'
             else 'Under 1M'
-        end as spend_tier
+        end as spend_tier,
+
+        -- cost efficiency ratio using safe_divide macro
+        {{ safe_divide('total_spending_2023', 'total_beneficiaries_2023') }}
+            as spend_per_beneficiary_derived
 
     from drug_spending
 )

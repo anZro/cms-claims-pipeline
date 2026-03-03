@@ -27,14 +27,18 @@ models:
 
   - name: fct_provider_payments
     description: "One row per provider+HCPCS code. Medicare payment amounts, utilization metrics, and derived total payment figures."
+    data_tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1000000
     columns:
       - name: rendering_npi
         description: "Foreign key to dim_providers"
         data_tests:
           - not_null
           - relationships:
-              to: ref('dim_providers')
-              field: rendering_npi
+              arguments:
+                to: ref('dim_providers')
+                field: rendering_npi
 
       - name: hcpcs_code
         description: "HCPCS procedure code"
@@ -45,6 +49,8 @@ models:
         description: "Derived total Medicare payment — avg payment * total services"
         data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
 
       - name: avg_medicare_payment_amt
         description: "Average Medicare payment per service"
@@ -53,6 +59,9 @@ models:
 
   - name: fct_drug_spend_by_specialty
     description: "Medicare Part D drug spending metrics for 2023, excluding aggregate manufacturer rollup rows."
+    data_tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          min_value: 1000
     columns:
       - name: brand_name
         description: "Brand name of the drug"
@@ -68,10 +77,13 @@ models:
         description: "Total Medicare Part D spending in 2023"
         data_tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
 
       - name: spend_tier
         description: "Derived spending tier bucket"
         data_tests:
           - not_null
           - accepted_values:
-              values: ['Billion+', '100M-1B', '10M-100M', '1M-10M', 'Under 1M']
+              arguments:
+                values: ['Billion+', '100M-1B', '10M-100M', '1M-10M', 'Under 1M']

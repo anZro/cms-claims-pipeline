@@ -34,9 +34,12 @@ models:
     staging:
       +materialized: view
       +schema: staging
+      +tags: ['bronze']
     intermediate:
       +materialized: table
       +schema: intermediate
+      +tags: ['silver']
     marts:
       +materialized: table
       +schema: marts
+      +tags: ['gold']
